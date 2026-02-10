@@ -1,4 +1,4 @@
-import { Controller, Param, Post, Put, Headers } from '@nestjs/common'
+import { Controller, Headers, Param, Post, Put } from '@nestjs/common'
 
 import { UploadService } from './upload.service'
 
@@ -10,7 +10,7 @@ export class UploadController {
   fileCreate(
     @Param('uuid') uuid: string,
     @Param('numberChunks') numberChunks: string,
-    @Headers() headers: Record<string, string>,
+    @Headers() headers: Record<string, string>
   ) {
     this.uploadService.onFileCreate({
       uuid,
@@ -25,7 +25,7 @@ export class UploadController {
   async uploadChunk(
     @Param('fileId') fileId: string,
     @Param('chunkNumber') chunkNumber: string,
-    @Headers() headers: Record<string, string>,
+    @Headers() headers: Record<string, string>
   ) {
     await this.uploadService.onChunkUpload({
       fileId,

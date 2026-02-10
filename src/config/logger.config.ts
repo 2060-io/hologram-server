@@ -1,4 +1,4 @@
-import { type LogLevel, Logger } from '@nestjs/common'
+import { Logger, type LogLevel } from '@nestjs/common'
 
 export function getLogLevels(): LogLevel[] {
   const logger = new Logger('getLogLevels')
