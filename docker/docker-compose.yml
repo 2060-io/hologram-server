@@ -1,0 +1,24 @@
+services:
+  app-check:
+    image: io2060/app-check-proxy:v1.0.0
+    restart: always
+    networks:
+      - chatbot
+    ports:
+      - 2802:3100
+    volumes:
+      - ./firebase.cfg.json:/app/firebase.cfg.json
+    environment:
+      APP_PORT: 3100
+      FIREBASE_CFG_FILE: /app/firebase.cfg.json
+      ENDPOINT_URLS: >
+        [
+          { "pattern": "/c/.*", "baseUrl": "http://host.docker.internal:3000" },
+          { "pattern": "/u/.*", "baseUrl": "http://host.docker.internal:3000" }
+        ]
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+networks:
+  chatbot:
+    driver: bridge
