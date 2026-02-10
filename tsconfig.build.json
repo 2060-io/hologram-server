@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./build",
     "module": "es2022",
     "moduleResolution": "bundler",
     "target": "ES2020",
@@ -19,7 +19,10 @@
     "verbatimModuleSyntax": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src"],
   "exclude": [

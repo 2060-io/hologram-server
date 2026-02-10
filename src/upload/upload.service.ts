@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common'
 
-import { CreateUploadDto } from './dto/create-upload.dto'
-import { S3Client } from '@aws-sdk/client-s3';
 import { ConfigService } from '@nestjs/config';
-import { AssumeRoleCommand, GetSessionTokenCommand, STSClient } from '@aws-sdk/client-sts';
+import { AssumeRoleCommand, STSClient } from '@aws-sdk/client-sts';
 
 @Injectable()
 export class UploadService {
@@ -22,12 +20,18 @@ export class UploadService {
 
   async getTemporaryCredentials() {
     try {
+      const accessKeyId = this.configService.get<string>('appConfig.bucketAccessId');
+        const secretAccessKey = this.configService.get<string>('appConfig.bucketAccessKey');
+
+        if (!accessKeyId || !secretAccessKey) {
+          throw new Error('Bucket credentials are not configured');
+        }
         const stsClient = new STSClient({
-          endpoint: this.configService.get('appConfig.bucketServer'),
-          region: this.configService.get('appConfig.bucketRegion'),
+          endpoint: this.configService.get<string>('appConfig.bucketServer'),
+          region: this.configService.get<string>('appConfig.bucketRegion'),
           credentials: {
-            accessKeyId: this.configService.get('appConfig.bucketAccessId'),
-            secretAccessKey: this.configService.get('appConfig.bucketAccessKey'),
+            accessKeyId,
+            secretAccessKey,
           },
         });
         const command = new AssumeRoleCommand({

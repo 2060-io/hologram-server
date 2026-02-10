@@ -11,7 +11,7 @@ export default registerAs('appConfig', () => ({
    * Defaults to 5000 if APP_PORT is not set in the environment variables.
    * @type {number}
    */
-  appPort: parseInt(process.env.AGENT_PORT) || 3000,
+  appPort: parseInt(process.env.AGENT_PORT ?? '3000', 10),
 
   bucketServer: process.env.BUCKET_SERVER || 'https://s3.minio.dev.2060.io',
 
