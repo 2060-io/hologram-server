@@ -7,12 +7,12 @@ export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
   @Post('c/:uuid/:numberChunks')
-  fileCreate(
+  async fileCreate(
     @Param('uuid') uuid: string,
     @Param('numberChunks') numberChunks: string,
     @Headers() headers: Record<string, string>
   ) {
-    this.uploadService.onFileCreate({
+    await this.uploadService.onFileCreate({
       uuid,
       numberChunks: Number(numberChunks),
       headers,

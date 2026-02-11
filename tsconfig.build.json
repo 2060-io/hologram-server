@@ -2,8 +2,8 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "outDir": "./build",
-    "module": "es2022",
-    "moduleResolution": "bundler",
+    "module": "CommonJS",
+    "moduleResolution": "node",
     "target": "ES2020",
     "declaration": true,
     "sourceMap": true,
@@ -16,7 +16,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "verbatimModuleSyntax": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "useUnknownInCatchVariables": false,
@@ -28,7 +27,7 @@
   "exclude": [
     "node_modules",
     "**/node_modules/**",
-    "dist",
+    "build",
     "**/*.test.ts",
     "**/__tests__/*.ts",
     "**/__mocks__/*.ts",
