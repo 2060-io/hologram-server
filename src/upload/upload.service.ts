@@ -1,8 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as admin from 'firebase-admin'
 import * as fs from 'fs'
-import { AuthzRequestDto } from './dto/authz.dto'
 
 @Injectable()
 export class UploadService {
@@ -43,27 +42,6 @@ export class UploadService {
       throw new Error(`STS error: ${xml}`)
     }
     return xml
-  }
-
-  authorize(body: AuthzRequestDto) {
-    const input = body?.input
-
-    if (!input) {
-      return { result: { allow: false } }
-    }
-
-    const { action, claims, account } = input
-
-    const isWrite = action === 's3:PutObject'
-    const isRead = action?.startsWith('s3:Get') || action?.startsWith('s3:List')
-
-    const isInternalAccount = claims?.parent === 'minioadmin'
-
-    if ((claims?.parent === 'mobile123' && isWrite) || isInternalAccount || isRead) {
-      return { result: { allow: true } }
-    }
-
-    return { result: { allow: false } }
   }
 
   async handleIdentity(token: string) {

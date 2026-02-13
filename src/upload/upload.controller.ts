@@ -1,5 +1,4 @@
-import { Body, Controller, Headers, HttpCode, Param, Post, Put, Req } from '@nestjs/common'
-import { AuthzRequestDto } from './dto/authz.dto'
+import { Controller, Headers, HttpCode, Param, Post, Put, Req } from '@nestjs/common'
 import { UploadService } from './upload.service'
 
 @Controller()
