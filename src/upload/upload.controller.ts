@@ -1,4 +1,4 @@
-import { Controller, Headers, HttpCode, Param, Post, Put, Req } from '@nestjs/common'
+import { Controller, Headers, HttpCode, Param, Post, Put, Query } from '@nestjs/common'
 import { UploadService } from './upload.service'
 
 @Controller()
@@ -31,13 +31,11 @@ export class UploadController {
 
   @Post('auth')
   @HttpCode(200)
-  async handleIdentity(@Req() req: any) {
-    const token = req.query?.token
-
+  async authenticateIdentity(@Query('token') token: string) {
     if (!token) {
       throw new Error('Missing token')
     }
 
-    return this.uploadService.handleIdentity(token)
+    return this.uploadService.authenticateIdentity(token)
   }
 }

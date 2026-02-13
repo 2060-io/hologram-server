@@ -44,24 +44,21 @@ export class UploadService {
     return xml
   }
 
-  async handleIdentity(token: string) {
+  async authenticateIdentity(token: string) {
     try {
       await this.admin.appCheck().verifyToken(token)
-      this.logger.log('[handleIdentity] Token verified successfully:')
+      this.logger.log('[authenticateIdentity] Token verified successfully')
       return {
         user: 'minioadmin',
         maxValiditySeconds: 900,
         claims: {},
       }
     } catch (error) {
-      let reason = 'Invalid Firebase token';
-      if (error?.message?.includes('expired')) reason = 'Firebase token expired';
-      if (error?.message?.includes('malformed')) reason = 'Malformed Firebase token';
-      throw new HttpException(
-        { reason },
-        HttpStatus.FORBIDDEN,
-      );
-
+      let reason = 'Invalid Firebase token'
+      if (error?.message?.includes('expired')) reason = 'Firebase token expired'
+      if (error?.message?.includes('malformed')) reason = 'Malformed Firebase token'
+      this.logger.error('[authenticateIdentity] Token verification failed:', error)
+      throw new HttpException({ reason }, HttpStatus.FORBIDDEN)
     }
   }
 
