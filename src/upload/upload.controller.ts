@@ -1,5 +1,5 @@
-import { Controller, Headers, Param, Post, Put } from '@nestjs/common'
-
+import { Body, Controller, Headers, HttpCode, Param, Post, Put, Req } from '@nestjs/common'
+import { AuthzRequestDto } from './dto/authz.dto'
 import { UploadService } from './upload.service'
 
 @Controller()
@@ -28,5 +28,16 @@ export class UploadController {
     @Headers() headers: Record<string, string>
   ) {
     return { ok: true }
+  }
+  @Post('auth')
+  @HttpCode(200)
+  async handleIdentity(@Req() req: any) {
+    const token = req.query?.token
+
+    if (!token) {
+      throw new Error('Missing token')
+    }
+
+    return this.uploadService.handleIdentity(token)
   }
 }

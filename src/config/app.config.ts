@@ -20,4 +20,6 @@ export default registerAs('appConfig', () => ({
   bucketAccessKey: process.env.BUCKET_ACCESS_KEY || 'minio123',
 
   bucketRegion: process.env.BUCKET_REGION || 'us-east-1',
+
+  firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './tests/test-firebase-cfg.json',
 }))
