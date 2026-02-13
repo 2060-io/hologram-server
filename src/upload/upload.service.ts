@@ -75,10 +75,15 @@ export class UploadService {
         maxValiditySeconds: 900,
         claims: {},
       }
-    } catch (_error) {
-      return {
-        reason: 'Invalid Firebase token',
-      }
+    } catch (error) {
+      let reason = 'Invalid Firebase token';
+      if (error?.message?.includes('expired')) reason = 'Firebase token expired';
+      if (error?.message?.includes('malformed')) reason = 'Malformed Firebase token';
+      throw new HttpException(
+        { reason },
+        HttpStatus.FORBIDDEN,
+      );
+
     }
   }
 

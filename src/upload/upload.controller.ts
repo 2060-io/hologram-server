@@ -29,6 +29,7 @@ export class UploadController {
   ) {
     return { ok: true }
   }
+
   @Post('auth')
   @HttpCode(200)
   async handleIdentity(@Req() req: any) {
