@@ -1,9 +1,9 @@
 import { Controller, Headers, HttpCode, Param, Post, Put, Query } from '@nestjs/common'
-import { UploadService } from './upload.service'
+import { IdentityAuthService } from './identity.service'
 
 @Controller()
-export class UploadController {
-  constructor(private readonly uploadService: UploadService) {}
+export class IdentityController {
+  constructor(private readonly identityService: IdentityAuthService) {}
 
   @Post('c/:uuid/:numberChunks')
   async getCredentials(
@@ -11,7 +11,7 @@ export class UploadController {
     @Param('numberChunks') numberChunks: string,
     @Headers() headers: Record<string, string>
   ) {
-    await this.uploadService.getCredentials({
+    await this.identityService.getCredentials({
       uuid,
       numberChunks: Number(numberChunks),
       headers,
@@ -36,6 +36,6 @@ export class UploadController {
       throw new Error('Missing token')
     }
 
-    return this.uploadService.authenticateIdentity(token)
+    return this.identityService.authenticateIdentity(token)
   }
 }

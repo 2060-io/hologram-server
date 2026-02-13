@@ -4,9 +4,9 @@ import * as admin from 'firebase-admin'
 import * as fs from 'fs'
 
 @Injectable()
-export class UploadService {
+export class IdentityAuthService {
   private admin: admin.app.App
-  private readonly logger = new Logger(UploadService.name)
+  private readonly logger = new Logger(IdentityAuthService.name)
   constructor(private configService: ConfigService) {
     this.admin = admin.initializeApp({
       credential: admin.credential.cert(this.getFirebaseConfig()),
