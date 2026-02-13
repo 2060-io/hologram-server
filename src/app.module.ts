@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import appConfig from '@/config/app.config'
 import { MinioService } from './services/minio/minio.service'
-import { UploadModule } from './upload/upload.module'
+import { UploadModule } from './identity/identity.module'
 
 @Module({
   imports: [
