@@ -13,37 +13,6 @@ export class IdentityAuthService {
     })
   }
 
-  public async getCredentials(args: { uuid: string; numberChunks: number; headers: Record<string, string> }) {
-    const bucketServer = this.configService.get<string>('appConfig.bucketServer')
-    if (!bucketServer) throw new Error('Bucket credentials are not configured')
-
-    const appCheckToken =
-      args.headers['x-firebase-appcheck'] || args.headers['x-firebase-app-check'] || args.headers['x-fire']
-
-    if (!appCheckToken) {
-      throw new Error('Missing Firebase App Check token')
-    }
-
-    const params = new URLSearchParams({
-      Action: 'AssumeRoleWithCustomToken',
-      Version: '2011-06-15',
-      Token: appCheckToken,
-      DurationSeconds: '900',
-      RoleArn: 'arn:minio:iam:::role/idmp-mobile-app',
-    })
-
-    const url = `${bucketServer}?${params.toString()}`
-    const response = await fetch(url, {
-      method: 'POST',
-    })
-
-    const xml = await response.text()
-    if (!response.ok) {
-      throw new Error(`STS error: ${xml}`)
-    }
-    return xml
-  }
-
   async authenticateIdentity(token: string) {
     try {
       await this.admin.appCheck().verifyToken(token)

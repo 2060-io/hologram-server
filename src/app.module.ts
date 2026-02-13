@@ -1,8 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import appConfig from '@/config/app.config'
-import { MinioService } from './services/minio/minio.service'
-import { UploadModule } from './identity/identity.module'
+import { UploadModule } from './identity'
 
 @Module({
   imports: [
@@ -13,6 +12,6 @@ import { UploadModule } from './identity/identity.module'
     }),
   ],
   controllers: [],
-  providers: [MinioService],
+  providers: [],
 })
 export class AppModule {}

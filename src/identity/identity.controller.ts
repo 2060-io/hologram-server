@@ -1,33 +1,9 @@
-import { Controller, Headers, HttpCode, Param, Post, Put, Query } from '@nestjs/common'
+import { Controller, HttpCode, Post, Query } from '@nestjs/common'
 import { IdentityAuthService } from './identity.service'
 
 @Controller()
 export class IdentityController {
   constructor(private readonly identityService: IdentityAuthService) {}
-
-  @Post('c/:uuid/:numberChunks')
-  async getCredentials(
-    @Param('uuid') uuid: string,
-    @Param('numberChunks') numberChunks: string,
-    @Headers() headers: Record<string, string>
-  ) {
-    await this.identityService.getCredentials({
-      uuid,
-      numberChunks: Number(numberChunks),
-      headers,
-    })
-
-    return { ok: true }
-  }
-
-  @Put('u/:fileId/:chunkNumber')
-  async uploadChunk(
-    @Param('fileId') fileId: string,
-    @Param('chunkNumber') chunkNumber: string,
-    @Headers() headers: Record<string, string>
-  ) {
-    return { ok: true }
-  }
 
   @Post('auth')
   @HttpCode(200)
