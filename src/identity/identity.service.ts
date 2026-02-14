@@ -18,8 +18,8 @@ export class IdentityAuthService {
       await this.admin.appCheck().verifyToken(token)
       this.logger.log('[authenticateIdentity] Token verified successfully')
       return {
-        user: 'minioadmin',
-        maxValiditySeconds: 900,
+        user: 'mobile-app',
+        maxValiditySeconds: this.configService.get('appConfig.maxValiditySeconds'),
         claims: {},
       }
     } catch (error) {

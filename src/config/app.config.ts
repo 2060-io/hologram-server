@@ -15,11 +15,9 @@ export default registerAs('appConfig', () => ({
 
   bucketServer: process.env.BUCKET_SERVER || 'https://s3.minio.dev.2060.io',
 
-  bucketAccessId: process.env.BUCKET_ACCESS_ID || 'minio',
-
-  bucketAccessKey: process.env.BUCKET_ACCESS_KEY || 'minio123',
-
   bucketRegion: process.env.BUCKET_REGION || 'us-east-1',
 
   firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './tests/test-firebase-cfg.json',
+
+  maxValiditySeconds: parseInt(process.env.MAX_VALIDITY_SECONDS ?? '900', 10),
 }))
