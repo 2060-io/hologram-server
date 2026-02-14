@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 
 import { IdentityController } from './identity.controller'
-import { IdentityAuthService } from './identity.service'
+import { IdentityService } from './identity.service'
 
 @Module({
   controllers: [IdentityController],
-  providers: [IdentityAuthService],
+  providers: [IdentityService],
 })
-export class UploadModule {}
+export class IdentityModule {}

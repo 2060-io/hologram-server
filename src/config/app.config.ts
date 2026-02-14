@@ -8,7 +8,7 @@ import { registerAs } from '@nestjs/config'
 export default registerAs('appConfig', () => ({
   /**
    * The port number on which the application will run.
-   * Defaults to 5000 if APP_PORT is not set in the environment variables.
+   * Defaults to 3000 if APP_PORT is not set in the environment variables.
    * @type {number}
    */
   appPort: parseInt(process.env.APP_PORT ?? '3000', 10),
