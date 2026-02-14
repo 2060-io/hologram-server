@@ -11,13 +11,13 @@ export default registerAs('appConfig', () => ({
    * Defaults to 5000 if APP_PORT is not set in the environment variables.
    * @type {number}
    */
-  appPort: parseInt(process.env.AGENT_PORT ?? '3000', 10),
+  appPort: parseInt(process.env.APP_PORT ?? '3000', 10),
 
   bucketServer: process.env.BUCKET_SERVER || 'https://s3.minio.dev.2060.io',
 
   bucketRegion: process.env.BUCKET_REGION || 'us-east-1',
 
-  firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './tests/test-firebase-cfg.json',
+  firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './firebase-config.json.json',
 
   maxValiditySeconds: parseInt(process.env.MAX_VALIDITY_SECONDS ?? '900', 10),
 }))

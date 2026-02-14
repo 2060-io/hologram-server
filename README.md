@@ -33,7 +33,7 @@ pnpm start:dev
 ## Environment Variables
 | Variable             | Default Value                      | Description                                                                                                  |
 | -------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `appPort`            | `3000`                             | Port where the application runs. It reads from `AGENT_PORT`; if not set, it defaults to `3000`.              |
+| `appPort`            | `3000`                             | Port where the application runs. It reads from `APP_PORT`; if not set, it defaults to `3000`.              |
 | `bucketServer`       | `https://p2800.ovpndev.mobiera.io` | Storage server (MinIO / bucket) URL where STS credentials are requested.                                     |
 | `bucketRegion`       | `us-east-1`                        | Bucket region used when generating STS credentials.                                                          |
 | `firebaseCfgFile`    | `./tests/test-firebase-cfg.json`   | Path to the Firebase configuration/service account file used by the backend to validate the App Check token. |
