@@ -1,10 +1,29 @@
 services:
+  hologram:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hologram-server
+    restart: always
+    networks:
+      - hologram
+    ports:
+      - "3000:3000"
+    environment:
+      APP_PORT: 3000
+      BUCKET_SERVER: http://minio:9000
+      BUCKET_REGION: us-east-1
+      FIREBASE_CFG_FILE: /www/firebase-config.json
+      MAX_VALIDITY_SECONDS: 900
+    volumes:
+      - ./firebase-config.json:/www/firebase-config.json:ro
+
   minio:
     image: minio/minio:RELEASE.2025-07-23T15-54-02Z
     container_name: minio-local
     restart: always
     networks:
-      - chatbot
+      - hologram
     ports:
       - "9000:9000"   # API S3
       - "9001:9001"   # Console Web
@@ -13,17 +32,15 @@ services:
       MINIO_ROOT_PASSWORD: minioadmin
       MINIO_SERVER_URL: http://localhost:9000
       MINIO_BROWSER_REDIRECT_URL: http://localhost:9001
-      MINIO_IDENTITY_PLUGIN_URL: "http://host.docker.internal:3000/auth"
+      MINIO_IDENTITY_PLUGIN_URL: "http://hologram:3000/auth"
       MINIO_IDENTITY_PLUGIN_ROLE_POLICY: "consoleAdmin"
       MINIO_IDENTITY_PLUGIN_ROLE_ID: "mobile-app"
-    extra_hosts:
-    - "host.docker.internal:host-gateway"
     volumes:
       - minio-data:/data
     command: server /data --console-address ":9001"
 
 networks:
-  chatbot:
+  hologram:
     driver: bridge
 volumes:
   minio-data:
