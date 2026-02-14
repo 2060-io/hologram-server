@@ -13,7 +13,7 @@ export default registerAs('appConfig', () => ({
    */
   appPort: parseInt(process.env.APP_PORT ?? '3000', 10),
 
-  bucketServer: process.env.BUCKET_SERVER || 'https://s3.minio.dev.2060.io',
+  bucketServer: process.env.BUCKET_SERVER || 'localhost:9000',
 
   bucketRegion: process.env.BUCKET_REGION || 'us-east-1',
 

@@ -1,9 +1,9 @@
-import { Controller, HttpCode, HttpException, HttpStatus, Post, Query } from '@nestjs/common'
+import { Controller, HttpCode, HttpException, HttpStatus, Inject, Post, Query } from '@nestjs/common'
 import { IdentityService } from './identity.service'
 
 @Controller()
 export class IdentityController {
-  constructor(private readonly identityService: IdentityService) {}
+  constructor(@Inject(IdentityService) private readonly identityService: IdentityService) {}
 
   @Post('auth')
   @HttpCode(200)

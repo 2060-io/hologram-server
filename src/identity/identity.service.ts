@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common'
+import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import * as admin from 'firebase-admin'
 import * as fs from 'fs'
@@ -7,7 +7,7 @@ import * as fs from 'fs'
 export class IdentityService {
   private admin: admin.app.App
   private readonly logger = new Logger(IdentityService.name)
-  constructor(private configService: ConfigService) {
+  constructor(@Inject(ConfigService) private configService: ConfigService) {
     this.admin = admin.initializeApp({
       credential: admin.credential.cert(this.getFirebaseConfig()),
     })
