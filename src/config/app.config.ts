@@ -17,7 +17,7 @@ export default registerAs('appConfig', () => ({
 
   bucketRegion: process.env.BUCKET_REGION || 'us-east-1',
 
-  firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './firebase-config.json.json',
+  firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './firebase-config.json',
 
   maxValiditySeconds: parseInt(process.env.MAX_VALIDITY_SECONDS ?? '900', 10),
 }))
