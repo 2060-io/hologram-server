@@ -32,8 +32,6 @@ services:
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
-      MINIO_SERVER_URL: http://localhost:9000
-      MINIO_BROWSER_REDIRECT_URL: http://localhost:9001
       MINIO_IDENTITY_PLUGIN_URL: "http://hologram:3000/auth"
       MINIO_IDENTITY_PLUGIN_ROLE_POLICY: "consoleAdmin"
       MINIO_IDENTITY_PLUGIN_ROLE_ID: "mobile-app"

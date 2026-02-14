@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import appConfig from '@/config/app.config'
-import { IdentityService } from './identity'
+import { IdentityModule } from './identity'
 
 @Module({
   imports: [
-    IdentityService,
+    IdentityModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [appConfig],
