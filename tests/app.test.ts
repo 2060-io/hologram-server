@@ -1,12 +1,28 @@
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import { GenericContainer, Network, StartedNetwork, StartedTestContainer, Wait } from 'testcontainers'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest'
 import { AppModule } from '@/app.module'
 
 let network: StartedNetwork
 let minioContainer: StartedTestContainer
 let hologramApp: INestApplication
+
+// Remove if you want to test with the real Firebase Admin SDK instead of the mocked version
+vi.mock('firebase-admin', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('firebase-admin')>()
+  return {
+    ...actual,
+    initializeApp: vi.fn().mockReturnValue({
+      appCheck: () => ({
+        verifyToken: vi.fn().mockResolvedValue({ token: 'mock-verified' }),
+      }),
+    }),
+    credential: {
+      cert: vi.fn().mockReturnValue({}),
+    },
+  }
+})
 
 describe('MinIO Integration', () => {
   beforeAll(async () => {
@@ -65,8 +81,9 @@ describe('MinIO Integration', () => {
     const stsResponse = await fetch(url, { method: 'POST' })
     const xml = await stsResponse.text()
 
-    expect(stsResponse.status).toBe(500)
-    expect(xml).toContain('<Code>InternalError</Code>')
-    expect(xml).toContain('<Message>Invalid Firebase token</Message>')
+    expect(stsResponse.status).toBe(200)
+    expect(xml).toContain('<AccessKeyId>')
+    expect(xml).toContain('<SecretAccessKey>')
+    expect(xml).toContain('<SessionToken>')
   })
 })
