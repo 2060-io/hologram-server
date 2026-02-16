@@ -1,20 +1,21 @@
 {
   "name": "hologram-server",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.0",
+  "description": "A server for Hologram",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "type": "module",
+  "license": "Apache-2.0",
   "files": [
-    "build"
+    "dist"
   ],
   "scripts": {
-    "build": "nest build",
+    "build": "nest build && tsc-alias -p tsconfig.build.json",
     "check-format": "biome check --unsafe",
     "fix-format": "biome check --write --unsafe",
     "check-types": "tsc -p tsconfig.json --noEmit",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
+    "start": "node dist/main.js",
+    "start:dev": "pnpm start --watch",
     "test": "vitest",
     "validate": "pnpm types:check && pnpm style:check",
     "prepare": "corepack enable"
@@ -38,6 +39,7 @@
     "@typescript-eslint/parser": "^6.6.0",
     "testcontainers": "^11.11.0",
     "ts-node-dev": "^2.0.0",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.3.0",
     "vitest": "^1.4.0"
   },

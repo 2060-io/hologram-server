@@ -3,12 +3,13 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import type { NestExpressApplication } from '@nestjs/platform-express'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import { createRequire } from 'module'
 import { getLogLevels } from '@/config'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
   const logLevels = getLogLevels()
-  const { name: appName, version: appVersion } = require('../package.json')
+  const { name: appName, version: appVersion } = createRequire(import.meta.url)('../package.json')
 
   // Create the NestJS application with custom logger levels
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {

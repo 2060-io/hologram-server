@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable, Logger } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import * as admin from 'firebase-admin'
+import admin from 'firebase-admin'
 import * as fs from 'fs'
 
 @Injectable()
