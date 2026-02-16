@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: {{ .Values.name }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+---
+{{- if .Values.firebaseConfig.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-firebase-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}
+data:
+  firebase-config.json: |
+{{ .Values.firebaseConfig.content | indent 4 }}
+{{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Values.name }}
+          image: {{ .Values.image.repository | default "io2060/hologram-server" }}:{{ .Values.image.tag | default .Chart.Version }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+{{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{- end }}
+{{- range .Values.extraEnv }}
+            - name: {{ .name }}
+              value: {{ tpl .value $ | quote }}
+{{- end }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+{{- if .Values.resources }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+{{- end }}
+{{- if .Values.firebaseConfig.enabled }}
+          volumeMounts:
+            - name: firebase-config
+              mountPath: /www/firebase-config.json
+              subPath: firebase-config.json
+              readOnly: true
+{{- end }}
+{{- if .Values.firebaseConfig.enabled }}
+      volumes:
+        - name: firebase-config
+          configMap:
+            name: {{ .Values.name }}-firebase-config
+{{- end }}
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: public-{{ .Values.name }}
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/enable-cors: "{{ .Values.ingress.public.enableCors | default "true" }}"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ tpl .Values.ingress.host . }}
+      secretName: {{ tpl .Values.ingress.tlsSecret . }}
+  rules:
+    - host: {{ tpl .Values.ingress.host . }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                 name: {{ .Values.name }}
+                 port:
+                   number: {{ .Values.service.port }}
+{{- end }}
