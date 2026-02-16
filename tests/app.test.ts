@@ -9,17 +9,17 @@ let minioContainer: StartedTestContainer
 let hologramApp: INestApplication
 
 // Remove if you want to test with the real Firebase Admin SDK instead of the mocked version
-vi.mock('firebase-admin', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('firebase-admin')>()
+vi.mock('firebase-admin', async () => {
   return {
-    ...actual,
-    initializeApp: vi.fn().mockReturnValue({
-      appCheck: () => ({
-        verifyToken: vi.fn().mockResolvedValue({ token: 'mock-verified' }),
+    default: {
+      initializeApp: vi.fn().mockReturnValue({
+        appCheck: () => ({
+          verifyToken: vi.fn().mockResolvedValue({ token: 'mock-verified' }),
+        }),
       }),
-    }),
-    credential: {
-      cert: vi.fn().mockReturnValue({}),
+      credential: {
+        cert: vi.fn().mockReturnValue({}),
+      },
     },
   }
 })
