@@ -12,4 +12,4 @@ jobs:
   ci:
     uses: 2060-io/organization/.github/workflows/2060-linter-call.yml@main
     with:
-      enable-charts-lint: false
+      enable-charts-lint: true

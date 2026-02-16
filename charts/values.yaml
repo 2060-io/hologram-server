@@ -1,0 +1,55 @@
+# Global configuration for the application
+global:
+  domain: example.com
+
+# General configuration
+name: hologram-server
+host: hologram
+replicas: 1
+
+# Image configuration
+image:
+  repository: io2060/hologram-server
+  # Tag defaults to Chart.Version if not specified
+  tag: ""
+  pullPolicy: IfNotPresent
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 3000
+  targetPort: 3000
+
+# Environment variables consumed by the application
+env:
+  APP_PORT: "3000"
+  BUCKET_SERVER: "http://minio:9000"
+  BUCKET_REGION: "us-east-1"
+  FIREBASE_CFG_FILE: "/www/firebase-config.json"
+  MAX_VALIDITY_SECONDS: "900"
+
+# Additional env variables if needed (list of {name, value})
+extraEnv: []
+
+# Firebase configuration (mounted as a file)
+firebaseConfig:
+  enabled: true
+  # JSON content for the firebase-config.json file
+  content: "{}"
+
+# Resource requests/limits for the container
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Optional ingress configuration
+ingress:
+  enabled: true
+  host: "{{ .Values.host }}.{{ .Values.global.domain }}"
+  tlsSecret: public.{{ .Values.host }}.{{ .Values.global.domain }}-cert
+  public:
+    enableCors: true
