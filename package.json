@@ -1,10 +1,9 @@
 {
   "name": "hologram-server",
   "version": "0.1.0",
-  "description": "A server for Hologram",
-  "author": "",
   "private": true,
   "type": "module",
+  "description": "A server for Hologram",
   "license": "Apache-2.0",
   "files": [
     "dist"
