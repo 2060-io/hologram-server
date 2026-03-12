@@ -44,7 +44,6 @@ The `secretName` and `secretKey` must match the values set in `firebaseConfig`.
 | `service.targetPort` | Container port | `3000` |
 | `env` | Required env vars (see below) | defaults |
 | `extraEnv` | Additional env entries (`[{name, value}]`, supports tpl) | see below |
-| `firebaseConfig.enabled` | Mount Firebase config file | `true` |
 | `firebaseConfig.secretName` | Name of the external Secret | `hologram-server-secrets` |
 | `firebaseConfig.secretKey` | Key inside the Secret (also used as filename and `FIREBASE_CFG_FILE` path) | `firebase-config.json` |
 | `resources` | Pod resources | see `values.yaml` |
@@ -69,7 +68,6 @@ The chart expects an external Secret to exist before deploying. The JSON file is
 
 ```yaml
 firebaseConfig:
-  enabled: true
   secretName: "hologram-server-secrets"  # must exist in the cluster
   secretKey: "firebase-config.json"      # key inside the secret
 ```

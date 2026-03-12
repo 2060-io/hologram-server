@@ -51,14 +51,11 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
 {{- end }}
-{{- if .Values.firebaseConfig.enabled }}
           volumeMounts:
             - name: firebase-config
               mountPath: /www/{{ .Values.firebaseConfig.secretKey }}
               subPath: {{ .Values.firebaseConfig.secretKey }}
               readOnly: true
-{{- end }}
-{{- if .Values.firebaseConfig.enabled }}
       volumes:
         - name: firebase-config
           secret:
@@ -66,7 +63,6 @@ spec:
             items:
               - key: {{ .Values.firebaseConfig.secretKey }}
                 path: {{ .Values.firebaseConfig.secretKey }}
-{{- end }}
 {{- if .Values.ingress.enabled }}
 ---
 apiVersion: networking.k8s.io/v1

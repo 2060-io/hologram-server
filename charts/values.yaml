@@ -34,7 +34,6 @@ extraEnv:
 
 # Firebase configuration (mounted as a file from an external Secret)
 firebaseConfig:
-  enabled: true
   secretName: "hologram-server-secrets"
   secretKey: "firebase-config.json"
 
