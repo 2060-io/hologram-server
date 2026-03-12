@@ -25,17 +25,18 @@ env:
   APP_PORT: "3000"
   BUCKET_SERVER: "http://minio:9000"
   BUCKET_REGION: "us-east-1"
-  FIREBASE_CFG_FILE: "/www/firebase-config.json"
   MAX_VALIDITY_SECONDS: "900"
 
 # Additional env variables if needed (list of {name, value})
-extraEnv: []
+extraEnv:
+  - name: FIREBASE_CFG_FILE
+    value: "/www/{{ .Values.firebaseConfig.secretKey }}"
 
-# Firebase configuration (mounted as a file)
+# Firebase configuration (mounted as a file from an external Secret)
 firebaseConfig:
   enabled: true
-  # JSON content for the firebase-config.json file
-  content: "{}"
+  secretName: "hologram-server-secrets"
+  secretKey: "firebase-config.json"
 
 # Resource requests/limits for the container
 resources:

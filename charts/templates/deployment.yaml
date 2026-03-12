@@ -15,19 +15,6 @@ spec:
       targetPort: {{ .Values.service.targetPort }}
       protocol: TCP
 ---
-{{- if .Values.firebaseConfig.enabled }}
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Values.name }}-firebase-config
-  namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ .Values.name }}
-data:
-  firebase-config.json: |
-{{ .Values.firebaseConfig.content | indent 4 }}
-{{- end }}
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -67,15 +54,18 @@ spec:
 {{- if .Values.firebaseConfig.enabled }}
           volumeMounts:
             - name: firebase-config
-              mountPath: /www/firebase-config.json
-              subPath: firebase-config.json
+              mountPath: /www/{{ .Values.firebaseConfig.secretKey }}
+              subPath: {{ .Values.firebaseConfig.secretKey }}
               readOnly: true
 {{- end }}
 {{- if .Values.firebaseConfig.enabled }}
       volumes:
         - name: firebase-config
-          configMap:
-            name: {{ .Values.name }}-firebase-config
+          secret:
+            secretName: {{ .Values.firebaseConfig.secretName }}
+            items:
+              - key: {{ .Values.firebaseConfig.secretKey }}
+                path: {{ .Values.firebaseConfig.secretKey }}
 {{- end }}
 {{- if .Values.ingress.enabled }}
 ---
