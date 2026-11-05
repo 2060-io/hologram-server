@@ -59,8 +59,21 @@ Defined under `env` with reference values; override per environment:
 - `BUCKET_SERVER` — S3-compatible bucket server URL (e.g. MinIO)
 - `BUCKET_REGION` — Bucket region
 - `MAX_VALIDITY_SECONDS` — Maximum validity for authentication tokens
+- `APP_CHECK_VERIFY` — Enables Firebase App Check token verification. Defaults to `"true"`
 
 `FIREBASE_CFG_FILE` is set automatically from `firebaseConfig.secretKey` when `firebaseConfig.enabled: true`.
+
+> **Warning:** `APP_CHECK_VERIFY: "false"` is for tests only. The server then accepts every non-empty token and logs a warning at startup and for each request. Never use it in production.
+
+### Optional environment variables
+
+- `FIREBASE_PROJECT_ID` — Google Cloud project id. The server uses it when the file in `FIREBASE_CFG_FILE` does not exist. App Check token verification needs no service account. Add it through `extraEnv`:
+
+```yaml
+extraEnv:
+  - name: FIREBASE_PROJECT_ID
+    value: "my-firebase-project"
+```
 
 ### Firebase Configuration
 
