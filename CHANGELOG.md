@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/2060-io/hologram-server/compare/v1.0.0...v1.1.0) (2026-11-05)
+
+
+### Features
+
+* verify App Check tokens without a service account and add a test mode ([#6](https://github.com/2060-io/hologram-server/issues/6)) ([232c16f](https://github.com/2060-io/hologram-server/commit/232c16f1ef435c786481b0d648deb0f3dcb38730))
+
 ## [1.0.0](https://github.com/2060-io/hologram-server/compare/v0.1.0...v1.0.0) (2026-03-20)
 
 
