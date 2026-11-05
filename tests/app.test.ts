@@ -34,7 +34,7 @@ describe('MinIO Integration', () => {
     await hologramApp.listen(3000, '0.0.0.0')
 
     network = await new Network().start()
-    minioContainer = await new GenericContainer('minio/minio:RELEASE.2025-07-23T15-54-02Z')
+    minioContainer = await new GenericContainer('bitnamilegacy/minio:2025.7.23-debian-12-r5')
       .withNetwork(network)
       .withExposedPorts(9000)
       .withExtraHosts([{ host: 'host.docker.internal', ipAddress: 'host-gateway' }])
@@ -45,7 +45,6 @@ describe('MinIO Integration', () => {
         MINIO_IDENTITY_PLUGIN_ROLE_POLICY: 'consoleAdmin',
         MINIO_IDENTITY_PLUGIN_ROLE_ID: 'mobile-app',
       })
-      .withCommand(['server', '/data'])
       .withWaitStrategy(Wait.forHttp('/minio/health/live', 9000))
       .start()
   }, 60_000)

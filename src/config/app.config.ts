@@ -19,5 +19,9 @@ export default registerAs('appConfig', () => ({
 
   firebaseCfgFile: process.env.FIREBASE_CFG_FILE || './firebase-config.json',
 
+  firebaseProjectId: process.env.FIREBASE_PROJECT_ID,
+
+  appCheckVerify: process.env.APP_CHECK_VERIFY !== 'false',
+
   maxValiditySeconds: parseInt(process.env.MAX_VALIDITY_SECONDS ?? '900', 10),
 }))

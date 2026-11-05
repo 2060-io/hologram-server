@@ -26,6 +26,9 @@ env:
   BUCKET_SERVER: "http://minio:9000"
   BUCKET_REGION: "us-east-1"
   MAX_VALIDITY_SECONDS: "900"
+  # Tests only: accepts every non-empty token
+  APP_CHECK_VERIFY: "true"
+  # FIREBASE_PROJECT_ID is optional, add it through extraEnv
 
 # Additional env variables if needed (list of {name, value})
 extraEnv:
