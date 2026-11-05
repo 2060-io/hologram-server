@@ -37,18 +37,18 @@ pnpm start:dev
 | `bucketServer`       | `https://p2800.ovpndev.mobiera.io` | Storage server (MinIO / bucket) URL where STS credentials are requested.                                     |
 | `bucketRegion`       | `us-east-1`                        | Bucket region used when generating STS credentials.                                                          |
 | `firebaseCfgFile`    | `./tests/test-firebase-cfg.json`   | Path to the Firebase configuration/service account file used by the backend to validate the App Check token. |
-| `firebaseProjectId`  | _(unset)_                          | Google Cloud project id read from `FIREBASE_PROJECT_ID`. Used when the file in `firebaseCfgFile` does not exist. App Check token verification needs no service account. |
-| `appCheckVerify`     | `true`                             | Enables App Check token verification. It reads from `APP_CHECK_VERIFY`; set it to `false` to accept every non-empty token. |
+| `firebaseProjectId`  | _(unset)_                          | Project id from `FIREBASE_PROJECT_ID`. Used when `firebaseCfgFile` does not exist.                           |
+| `appCheckVerify`     | `true`                             | App Check verification, from `APP_CHECK_VERIFY`. Set it to `false` to accept every non-empty token.          |
 | `maxValiditySeconds` | `900`                              | Maximum validity time (in seconds) for the generated STS credentials.                                        |
 
-> **Warning:** `APP_CHECK_VERIFY=false` is for tests only. The server then accepts every non-empty token and logs a warning at startup and for each request. Never use it in production.
+> **Warning:** `APP_CHECK_VERIFY=false` is for tests only. Never use it in production.
 
-The server reads the Firebase configuration in this order:
+Firebase initialization order:
 
-1. The file in `firebaseCfgFile` exists: it initializes Firebase with that service account.
-2. `FIREBASE_PROJECT_ID` is set: it initializes Firebase with the project id only.
-3. `APP_CHECK_VERIFY=false`: it does not initialize Firebase.
-4. None of the above: the server fails to start.
+1. `firebaseCfgFile` exists: service account.
+2. `FIREBASE_PROJECT_ID` is set: project id only.
+3. `APP_CHECK_VERIFY=false`: no Firebase.
+4. Otherwise the server fails to start.
 
 
 ## Architecture

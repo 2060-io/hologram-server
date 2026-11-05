@@ -4,7 +4,6 @@ export function getLogLevels(): LogLevel[] {
   const logger = new Logger('getLogLevels')
   const logLevelConfig = parseInt(process.env.LOG_LEVEL ?? '1', 10)
 
-  // 'warn' stays in the list. Nest enables each level that the list contains.
   const logLevels: LogLevel[] = ['log', 'warn']
 
   // Adjust log levels based on the configuration

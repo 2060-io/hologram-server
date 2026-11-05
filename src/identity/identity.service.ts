@@ -22,12 +22,12 @@ export class IdentityService {
         credential: admin.credential.cert(this.getFirebaseConfig(firebaseCfgFile)),
       })
     } else if (projectId) {
-      // App Check verification checks the token signature against a public JWKS. It needs no credential.
+      // Token verification uses the public JWKS of Google. It needs no credential.
       this.logger.log(`[IdentityService] Initialize firebase with the project id: ${projectId}`)
       this.admin = admin.initializeApp({ projectId })
     } else if (this.appCheckVerify) {
       throw new Error(
-        `[IdentityService] No Firebase configuration found. Set FIREBASE_CFG_FILE to an existing file (current path: ${firebaseCfgFile}), or set FIREBASE_PROJECT_ID, or set APP_CHECK_VERIFY=false for tests`
+        `[IdentityService] No Firebase configuration. Set FIREBASE_CFG_FILE (current path: ${firebaseCfgFile}), FIREBASE_PROJECT_ID, or APP_CHECK_VERIFY=false for tests`
       )
     }
   }
